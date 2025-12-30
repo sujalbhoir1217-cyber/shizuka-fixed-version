@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Birthday Surprise 💖</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@300;500;700&display=swap" rel="stylesheet" />
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+
+body{
+  font-family:Poppins,sans-serif;
+  background:radial-gradient(circle,#ffd6e8,#ff9ecb);
+  overflow:hidden;
+}
+
+.page{
+  position:absolute;
+  inset:0;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  gap:25px;
+  transition:1s;
+  text-align:center;
+}
+
+.hidden{
+  opacity:0;
+  pointer-events:none;
+  transform:scale(1.1);
+}
+
+.dark-room{background:black}
+
+.start-title{
+  font-family:Pacifico;
+  font-size:60px;
+  color:white;
+  text-shadow:0 0 20px #ff69b4,0 0 40px #ff85c2;
+}
+
+.start-sub{color:white;font-size:22px}
+
+.start-emoji{
+  font-size:42px;
+  animation:pulse 1.5s infinite;
+}
+
+@keyframes pulse{50%{transform:scale(1.2)}}
+
+.glow-btn{
+  padding:16px 48px;
+  border:none;
+  border-radius:45px;
+  font-size:20px;
+  color:white;
+  background:linear-gradient(135deg,#ff3d81,#ff85c2);
+  box-shadow:0 0 25px #ff69b4,0 0 45px #ff85c2;
+  cursor:pointer;
+}
+
+.row{display:flex;gap:20px}
+.yes{background:#ff4d6d}
+.no{background:#7b2cbf}
+
+.decor-bg{
+  background:
+  linear-gradient(rgba(255,214,232,.75),rgba(255,214,232,.75)),
+  url("sumit.jpeg") center/cover no-repeat;
+}
+
+.balloon{
+  position:absolute;
+  bottom:-120px;
+  font-size:45px;
+  animation:fly 8s linear infinite;
+}
+
+.teddy{
+  position:absolute;
+  font-size:30px;
+  top:40px;
+}
+
+@keyframes fly{
+  to{transform:translateY(-130vh)}
+}
+
+.big{
+  font-family:Pacifico;
+  font-size:55px;
+  color:white;
+  text-shadow:0 0 25px #ff69b4;
+}
+
+#cake{font-size:120px;cursor:pointer}
+#candle{font-size:40px}
+
+.envelope{
+  width:280px;
+  height:180px;
+  background:#ff6fae;
+  border-radius:10px;
+  cursor:pointer;
+}
+
+.letter{
+  background:white;
+  padding:25px;
+  border-radius:20px;
+  width:80%;
+  max-width:500px;
+}
+
+.confetti{
+  position:fixed;
+  top:-10px;
+  font-size:18px;
+  animation:fall 3s linear forwards;
+}
+
+@keyframes fall{
+  to{transform:translateY(110vh) rotate(360deg)}
+}
+
+.video-page{
+  background:black;
+  color:white;
+}
+
+video{
+  width:90vw;
+  max-width:600px;
+  border-radius:15px;
+  box-shadow:0 0 25px #ff69b4;
+  display:none;
+}
+
+input{
+  padding:14px;
+  font-size:18px;
+  border-radius:12px;
+  border:none;
+  text-align:center;
+  width:200px;
+}
+</style>
+</head>
+
+<body>
+
+<audio id="bgMusic" src="song.mp3" loop></audio>
+
+<div class="page" id="p1">
+  <div class="start-emoji">✨💖✨</div>
+  <div class="start-title">For Mine Shizuka 💝</div>
+  <div class="start-sub">31 December 🎂</div>
+  <button class="glow-btn" onclick="next(1)">💝 Open Surprise 💝</button>
+</div>
+
+<div class="page hidden" id="p2">
+  <h2>Mine Shizuka 💝</h2>
+  <p>Do you wanna see what I made for you?</p>
+  <div class="row">
+    <button class="glow-btn yes" onclick="next(2)">Yes</button>
+    <button class="glow-btn no">No</button>
+  </div>
+</div>
+
+<div class="page hidden" id="p3">
+  <h2>It's Your Special Day 💕</h2>
+  <button class="glow-btn" onclick="next(3)">Next</button>
+</div>
+
+<div class="page hidden dark-room" id="p4">
+  <h2 style="color:white">It's dark here 🖤</h2>
+  <button class="glow-btn" onclick="lights()">💡 Turn On Lights</button>
+</div>
+
+<div class="page hidden decor-bg" id="p5">
+  <div class="big">🎉 HAPPY BIRTHDAY 🎉</div>
+  <button class="glow-btn" onclick="next(5)">Continue</button>
+</div>
+
+<div class="page hidden decor-bg" id="p6">
+  <button class="glow-btn" onclick="balloons()">🎈 Release Balloons</button>
+</div>
+
+<div class="page hidden decor-bg" id="p7">
+  <button class="glow-btn" onclick="cakePage()">🎂 Bring Cake</button>
+</div>
+
+<div class="page hidden decor-bg" id="p8">
+  <div class="big">Happy Birthday Mine Shizuka 💝</div>
+  <div id="cake">🎂 <span id="candle">🕯️</span></div>
+  <p>Hold cake 2 sec ya phone shake karo</p>
+</div>
+
+<div class="page hidden decor-bg" id="p9">
+  <div class="envelope" onclick="next(9)"></div>
+  <p>💌 Tap the letter</p>
+</div>
+
+<div class="page hidden decor-bg" id="p10">
+  <h2>🔐 Enter Secret Code</h2>
+  <input type="number" id="code" placeholder="Enter code">
+  <button class="glow-btn" onclick="checkCode()">Submit</button>
+</div>
+
+<div class="page hidden decor-bg" id="p11">
+  <div class="letter">
+    <h3>Dear Mine Shizuka 💝</h3>
+    <p>
+      Happy Birthday 🎂💖  
+      Tum meri zindagi ka sabse khoobsurat hissa ho.  
+      Aur is naye saal ke liye  
+      <b>Happy New Year in Advance 🎉✨</b>  
+      Har din tumhare liye khushiyon se bhara ho ❤️
+    </p>
+  </div>
+  <button class="glow-btn" onclick="next(11)">💖 One Last Surprise</button>
+</div>
+
+<div class="page hidden video-page" id="p12">
+  <video id="surpriseVideo" loop>
+    <source src="sumit.mp4" type="video/mp4">
+  </video>
+  <button class="glow-btn" onclick="playSurprise()">🎬 Special Surprise</button>
+</div>
+
+<script>
+let current=1,blown=false,hold;
+
+function next(n){
+  document.getElementById("p"+n).classList.add("hidden");
+  document.getElementById("p"+(n+1)).classList.remove("hidden");
+  current=n+1;
+}
+
+function lights(){
+  document.getElementById("bgMusic").play();
+  setTimeout(()=>next(4),600);
+}
+
+function balloons(){
+  for(let i=0;i<15;i++){
+    let b=document.createElement("div");
+    b.className="balloon";
+    b.innerHTML="🎈<div class='teddy'>🧸</div>";
+    b.style.left=Math.random()*100+"%";
+    document.body.appendChild(b);
+  }
+  next(6);
+}
+
+function cakePage(){
+  document.querySelectorAll(".balloon").forEach(b=>b.remove());
+  document.querySelectorAll(".teddy").forEach(t=>t.remove());
+  next(7);
+  enableHold();enableShake();
+}
+
+function enableHold(){
+  let cake=document.getElementById("cake");
+  cake.onmousedown=()=>hold=setTimeout(blow,2000);
+  cake.onmouseup=()=>clearTimeout(hold);
+  cake.ontouchstart=()=>hold=setTimeout(blow,2000);
+  cake.ontouchend=()=>clearTimeout(hold);
+}
+
+function enableShake(){
+  if(window.DeviceMotionEvent){
+    window.addEventListener("devicemotion",e=>{
+      let a=e.accelerationIncludingGravity;
+      if(Math.abs(a.x)+Math.abs(a.y)+Math.abs(a.z)>30 && current===8) blow();
+    });
+  }
+}
+
+function blow(){
+  if(blown)return;
+  blown=true;
+  document.getElementById("candle").innerText="";
+  for(let i=0;i<40;i++){
+    let c=document.createElement("div");
+    c.className="confetti";
+    c.style.left=Math.random()*100+"%";
+    c.innerText=["🎊","🎉","💖","✨"][Math.floor(Math.random()*4)];
+    document.body.appendChild(c);
+    setTimeout(()=>c.remove(),3000);
+  }
+  setTimeout(()=>next(8),1200);
+}
+
+function checkCode(){
+  let code=document.getElementById("code").value;
+  if(code=="1234"){
+    next(10);
+  }else{
+    alert("❌ Wrong Code!");
+  }
+}
+
+function playSurprise(){
+  document.getElementById("bgMusic").pause();
+  let v=document.getElementById("surpriseVideo");
+  v.style.display="block";
+  v.play();
+}
+</script>
+
+</body>
+</html>
